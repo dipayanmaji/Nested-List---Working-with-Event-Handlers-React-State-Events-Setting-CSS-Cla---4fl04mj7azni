@@ -160,7 +160,7 @@ function App() {
 
   function stateClicked(e){
     // console.log("state clicked "+ e.target.className);
-    let index = e.target.id;
+    let index = e.target.id.split("").reverse()[0]-1;
     let cityName = e.target.className;
 
     if(cities.hasOwnProperty(cityName)){
@@ -171,7 +171,7 @@ function App() {
 
     setCities({
       ...cities,
-      [cityName]: states[e.target.id].cities,
+      [cityName]: states[index].cities,
     });
   }
 
@@ -179,7 +179,8 @@ function App() {
     e.stopPropagation();
     let townName = e.target.className;
     // console.log("city clicked "+ townName);
-    let ownIndex = e.target.id;
+    let ownIndex = e.target.id.split("").reverse()[0]-1;
+    // console.log(ownIndex);
     let parentIndex = e.target.value;
 
     if(towns.hasOwnProperty(townName)){
@@ -202,14 +203,14 @@ function App() {
     <div id="main">
       <ul>
         {states.map((state, cityIndex)=>
-          <li onClick={stateClicked} id={cityIndex} key={cityIndex} className={state.name} >{state.name}
+          <li onClick={stateClicked} id={`state${cityIndex+1}`} key={cityIndex} className={state.name} >{state.name}
               {cities.hasOwnProperty(state.name) ?
                 <ul>{cities[state.name].map((city, townIndex)=>
-                  <li onClick={cityClicked} value={cityIndex} id={townIndex} className={city.name} key={townIndex}>{city.name}
+                  <li onClick={cityClicked} value={cityIndex} id={`city${townIndex+1}`} className={city.name} key={townIndex}>{city.name}
                     {towns.hasOwnProperty(city.name) ? 
                       <ul>
                         {towns[city.name].map((town, index)=>
-                          <li onClick={townClicked} key={index}>{town.name}</li>
+                          <li id={`town${index+1}`} onClick={townClicked} key={index}>{town.name}</li>
                         )}
                       </ul>
                     :""}
